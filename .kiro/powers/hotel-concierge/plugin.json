@@ -1,0 +1,68 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "hotel-concierge",
+  "displayName": "Hotel Concierge Power",
+  "version": "1.0.0",
+  "description": "Domain-specific Kiro Power for the Hotel Management App. Provides specialised skills for guest request handling, dietary filtering, concierge inquiries, kitchen order dispatching, and staff priority queue management.",
+  "author": {
+    "name": "Hotel Management App Team",
+    "email": "dev@hotel-app.local"
+  },
+  "license": "MIT",
+  "keywords": [
+    "hotel",
+    "room-service",
+    "guest-ops",
+    "amenities",
+    "concierge",
+    "kitchen-dispatch",
+    "pos",
+    "hospitality"
+  ],
+  "homepage": "https://github.com/your-org/hotel-management-app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/hotel-management-app.git"
+  },
+  "engines": {
+    "kiro": ">=1.0.0",
+    "node": ">=20.0.0"
+  },
+  "skills": [
+    {
+      "id": "guest-request-handler",
+      "name": "Guest Request Handler",
+      "description": "Handles guest food orders, dietary filtering, service requests, and concierge inquiries within the hotel domain model.",
+      "path": "skills/guest-request-handler/SKILL.md"
+    },
+    {
+      "id": "staff-order-dispatch",
+      "name": "Staff Order Dispatch",
+      "description": "Manages kitchen order dispatching, real-time KDS queue management, and staff priority assignment for order fulfillment.",
+      "path": "skills/staff-order-dispatch/SKILL.md"
+    }
+  ],
+  "mcpServers": [],
+  "configuration": {
+    "hotel_name": {
+      "type": "string",
+      "description": "The display name of the hotel property",
+      "default": "Grand Hotel"
+    },
+    "default_service_charge_rate": {
+      "type": "number",
+      "description": "Default service charge rate applied to food orders (0–0.20)",
+      "default": 0.1
+    },
+    "max_dietary_filters": {
+      "type": "integer",
+      "description": "Maximum number of dietary filters a guest can apply simultaneously",
+      "default": 5
+    },
+    "kitchen_dispatch_priority_window_minutes": {
+      "type": "integer",
+      "description": "Time window (minutes) within which orders are considered equal priority for batch dispatch",
+      "default": 15
+    }
+  }
+}

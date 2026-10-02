@@ -1,0 +1,170 @@
+{
+  "$schema": "https://kiro.dev/schemas/cloud.json",
+  "version": "1.0",
+  "description": "Kiro Cloud Session configuration for the Hotel Management App. Spins up both frontend SPAs in a shared sandbox so Kiro Cloud can preview, test, and develop against live-reloading apps without any local setup.",
+
+  "container": {
+    "image": "node:20-bookworm-slim",
+    "description": "Node.js 20 LTS on Debian Bookworm Slim — matches the minimum engine version required by Vite 8, TypeScript 6, and fast-check 4."
+  },
+
+  "setup": [
+    {
+      "name": "Install guest app dependencies",
+      "command": "npm install",
+      "cwd": "frontend-guest",
+      "description": "Install all frontend-guest dependencies including vitest, fast-check, and react-router-dom."
+    },
+    {
+      "name": "Install staff app dependencies",
+      "command": "npm install",
+      "cwd": "frontend-staff",
+      "description": "Install all frontend-staff dependencies including vitest and fast-check."
+    }
+  ],
+
+  "build": [
+    {
+      "name": "Type-check guest app",
+      "command": "npx tsc --noEmit",
+      "cwd": "frontend-guest",
+      "description": "Verify frontend-guest has no TypeScript errors before starting the dev server."
+    },
+    {
+      "name": "Type-check staff app",
+      "command": "npx tsc --noEmit",
+      "cwd": "frontend-staff",
+      "description": "Verify frontend-staff has no TypeScript errors before starting the dev server."
+    },
+    {
+      "name": "Run PBT suites — guest app",
+      "command": "npx vitest run --reporter=verbose",
+      "cwd": "frontend-guest",
+      "description": "Run all 37 property-based tests in frontend-guest. Build is blocked if any test fails."
+    },
+    {
+      "name": "Run PBT suites — staff app",
+      "command": "npx vitest run --reporter=verbose",
+      "cwd": "frontend-staff",
+      "description": "Run all 37 property-based tests in frontend-staff. Build is blocked if any test fails."
+    }
+  ],
+
+  "devServers": [
+    {
+      "name": "Guest & POS App",
+      "command": "npm run dev",
+      "cwd": "frontend-guest",
+      "port": 5173,
+      "description": "Vite dev server for the guest-facing and POS SPA. Accessible at the forwarded port 5173.",
+      "env": {
+        "VITE_API_BASE_URL": "${API_BASE_URL}",
+        "VITE_WS_URL": "${WS_URL}"
+      }
+    },
+    {
+      "name": "Staff Dashboard App",
+      "command": "npm run dev",
+      "cwd": "frontend-staff",
+      "port": 5174,
+      "description": "Vite dev server for the staff operations dashboard SPA. Accessible at the forwarded port 5174.",
+      "env": {
+        "VITE_API_BASE_URL": "${API_BASE_URL}",
+        "VITE_WS_URL": "${WS_URL}"
+      }
+    }
+  ],
+
+  "ports": [
+    {
+      "port": 5173,
+      "label": "Guest & POS App",
+      "description": "Hotel guest portal — room booking, food ordering, live order tracking, service requests.",
+      "public": true,
+      "protocol": "http"
+    },
+    {
+      "port": 5174,
+      "label": "Staff Dashboard",
+      "description": "Internal staff operations dashboard — bookings, orders, rooms, inventory, reports.",
+      "public": false,
+      "protocol": "http"
+    },
+    {
+      "port": 3000,
+      "label": "Backend API",
+      "description": "Express + TypeScript REST API server (when backend is running).",
+      "public": false,
+      "protocol": "http"
+    },
+    {
+      "port": 3001,
+      "label": "WebSocket Server",
+      "description": "Real-time WebSocket server for order status and room status updates.",
+      "public": false,
+      "protocol": "ws"
+    }
+  ],
+
+  "secrets": [
+    {
+      "name": "DATABASE_URL",
+      "description": "PostgreSQL connection string. Format: postgresql://user:password@host:5432/hotel_db",
+      "required": false
+    },
+    {
+      "name": "JWT_SECRET",
+      "description": "Secret used to sign and verify JWTs. Must be at least 32 characters.",
+      "required": false
+    },
+    {
+      "name": "RAZORPAY_KEY_SECRET",
+      "description": "Razorpay secret key for payment processing.",
+      "required": false
+    },
+    {
+      "name": "STRIPE_SECRET_KEY",
+      "description": "Stripe secret key for payment processing.",
+      "required": false
+    },
+    {
+      "name": "WHATSAPP_ACCESS_TOKEN",
+      "description": "WhatsApp Business API access token for sending notifications.",
+      "required": false
+    },
+    {
+      "name": "SMTP_PASS",
+      "description": "SMTP password for sending email notifications.",
+      "required": false
+    },
+    {
+      "name": "S3_SECRET_ACCESS_KEY",
+      "description": "S3-compatible object storage secret key for bill photos and QR codes.",
+      "required": false
+    }
+  ],
+
+  "env": {
+    "NODE_ENV": "development",
+    "API_BASE_URL": "http://localhost:3000/api/v1",
+    "WS_URL": "ws://localhost:3001",
+    "LOG_LEVEL": "info"
+  },
+
+  "healthChecks": [
+    {
+      "name": "Guest app responds",
+      "url": "http://localhost:5173",
+      "interval": 10,
+      "timeout": 5,
+      "retries": 6
+    },
+    {
+      "name": "Staff app responds",
+      "url": "http://localhost:5174",
+      "interval": 10,
+      "timeout": 5,
+      "retries": 6
+    }
+  ]
+}

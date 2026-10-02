@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "TypeScript Typecheck on Save",
+      "trigger": "PostFileSave",
+      "description": "Runs npx tsc --noEmit on the affected frontend app whenever a .ts or .tsx file is saved, reporting type errors immediately in the output channel.",
+      "matcher": "\\.(ts|tsx)$",
+      "action": {
+        "type": "command",
+        "command": "node -e \"\nconst path = require('path');\nconst { execSync } = require('child_process');\nconst input = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));\nconst file = input.file || '';\nconst guestDir = path.join(input.workspaceRoot || '.', 'frontend-guest');\nconst staffDir = path.join(input.workspaceRoot || '.', 'frontend-staff');\nconst isGuest = file.includes('frontend-guest');\nconst isStaff = file.includes('frontend-staff');\nconst dirs = isGuest ? [guestDir] : isStaff ? [staffDir] : [guestDir, staffDir];\nlet passed = true;\nfor (const dir of dirs) {\n  try {\n    execSync('npx tsc --noEmit', { cwd: dir, stdio: 'pipe' });\n    process.stdout.write(JSON.stringify({ message: 'tsc OK: ' + dir }) + '\\n');\n  } catch (e) {\n    process.stderr.write('TypeScript errors in ' + dir + ':\\n' + (e.stdout || e.stderr || e.message) + '\\n');\n    passed = false;\n  }\n}\nprocess.exit(passed ? 0 : 1);\n\"\n",
+        "timeout": 60
+      }
+    }
+  ]
+}

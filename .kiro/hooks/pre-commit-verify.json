@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Pre-Commit Verification (tsc + tests + build)",
+      "trigger": "PostTaskExec",
+      "description": "Runs tsc --noEmit, npm test --run, and npm run build on both frontend apps after each spec task completes. Blocks task completion (exit 2) if any check fails.",
+      "action": {
+        "type": "command",
+        "command": "node -e \"\nconst { execSync } = require('child_process');\nconst path = require('path');\nconst input = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));\nconst root = input.workspaceRoot || '.';\nconst apps = ['frontend-guest', 'frontend-staff'];\nlet allPassed = true;\nconst results = [];\n\nfor (const app of apps) {\n  const dir = path.join(root, app);\n  const fs = require('fs');\n  if (!fs.existsSync(dir)) continue;\n\n  // 1. Type-check\n  try {\n    execSync('npx tsc --noEmit', { cwd: dir, stdio: 'pipe' });\n    results.push({ app, step: 'tsc', status: 'pass' });\n  } catch (e) {\n    results.push({ app, step: 'tsc', status: 'fail', detail: (e.stdout || e.stderr || '').toString().slice(0, 500) });\n    allPassed = false;\n  }\n\n  // 2. Tests (only if vitest config exists)\n  const vitestCfg = path.join(dir, 'vitest.config.ts');\n  if (fs.existsSync(vitestCfg)) {\n    try {\n      execSync('npm test -- --run', { cwd: dir, stdio: 'pipe', timeout: 120000 });\n      results.push({ app, step: 'tests', status: 'pass' });\n    } catch (e) {\n      results.push({ app, step: 'tests', status: 'fail', detail: (e.stdout || e.stderr || '').toString().slice(0, 500) });\n      allPassed = false;\n    }\n  } else {\n    results.push({ app, step: 'tests', status: 'skipped', detail: 'no vitest.config.ts' });\n  }\n\n  // 3. Build\n  try {\n    execSync('npm run build', { cwd: dir, stdio: 'pipe', timeout: 120000 });\n    results.push({ app, step: 'build', status: 'pass' });\n  } catch (e) {\n    results.push({ app, step: 'build', status: 'fail', detail: (e.stdout || e.stderr || '').toString().slice(0, 500) });\n    allPassed = false;\n  }\n}\n\nconst summary = results.map(r => r.app + ':' + r.step + '=' + r.status + (r.detail ? ' >> ' + r.detail : '')).join('\\n');\nif (allPassed) {\n  process.stdout.write('All verification checks passed.\\n' + summary + '\\n');\n  process.exit(0);\n} else {\n  process.stderr.write('Verification FAILED. Fix errors before marking task complete.\\n' + summary + '\\n');\n  process.exit(2);\n}\n\"\n",
+        "timeout": 300
+      }
+    }
+  ]
+}

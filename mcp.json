@@ -1,0 +1,46 @@
+{
+  "mcpServers": {
+    "hotel-sqlite": {
+      "command": "uvx",
+      "args": ["mcp-server-sqlite", "--db-path", "${workspaceRoot}/data/hotel.db"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "description": "SQLite MCP server for querying and inspecting hotel room inventory, menu items, active orders, and guest records. Use for read-only inspection during development — the production system uses PostgreSQL.",
+      "notes": "Requires uv/uvx: https://docs.astral.sh/uv/. Database file is auto-created at data/hotel.db on first run. Schema migrations live in backend/src/migrations/."
+    },
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "description": "Fetch/HTTP MCP server for simulating communication with external payment gateways (Razorpay/Stripe), OTA platform APIs (Booking.com, Expedia, Airbnb), and WhatsApp Business API.",
+      "allowedDomains": [
+        "api.razorpay.com",
+        "api.stripe.com",
+        "supply-xml.booking.com",
+        "api.expediagroup.com",
+        "api.airbnb.com",
+        "graph.facebook.com"
+      ]
+    },
+    "filesystem": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-filesystem",
+        "--root", "${workspaceRoot}/logs",
+        "--root", "${workspaceRoot}/data/archives",
+        "--root", "${workspaceRoot}/data/uploads"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "description": "Filesystem MCP server scoped to logs/, data/archives/, and data/uploads/. Use for auditing order logs, reading guest request archives, and inspecting uploaded bill photos. Read-only.",
+      "readOnly": true
+    }
+  }
+}
