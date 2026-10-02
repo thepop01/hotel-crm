@@ -1,117 +1,117 @@
-# 🧠 Antigravity Master Context — Hotel Management App
+# 🏨 Aurum Luxury Resort — Hotel CRM
 
-This file is read at the start of every session. It loads all skills and memory into context.
-
----
-
-## 🔌 Active Skills & Plugins
-
-@./plugins/superpowers/skills/using-superpowers/SKILL.md
-@./plugins/superpowers/skills/using-superpowers/references/gemini-tools.md
+A full-stack hotel management system for **Aurum Luxury Resort**, Goa. Built with two separate React + Vite frontends — one for guests and one for staff.
 
 ---
 
-## ⚡ Superpower Trigger Rules
+## What Was Built
 
-Read and follow these rules BEFORE any response:
+### Guest Frontend (`frontend-guest`) — Port 5173
+The public-facing experience for hotel guests.
 
-### MANDATORY: Check skills before ANY action
-If there is even a 1% chance a skill applies, invoke it. This is not optional.
+- **Landing Page** — Hero section with parallax scroll, room listings (Deluxe Ocean Suite, Royal Penthouse, Garden Villa), amenities grid, testimonials carousel, and CTA
+- **Booking Page** — Room reservation flow
+- **Guest Portal** — In-room experience panel with three tabs:
+  - **Dining** — Browse the full menu (Starters, Mains, Sides, Desserts), add to cart, set delivery time, and place room-service orders
+  - **Services** — Request housekeeping, laundry, room service, or maintenance with optional notes
+  - **My Orders** — Live order tracking with step-by-step status (Placed → Preparing → Out for Delivery → Delivered)
+- **Login Page** — Guest authentication
 
-### Automatic Skill Triggers
+### Staff Frontend (`frontend-staff`) — Port 5174
+The internal operations dashboard for hotel staff and management.
 
-| If the user says... | Invoke this skill first |
-|---------------------|------------------------|
-| "build", "create", "add feature", "I want to" | `brainstorming` → then `writing-plans` |
-| "fix", "bug", "error", "not working", "broken" | `systematic-debugging` |
-| "design", "UI", "page", "component", "layout", "style" | `ui-ux-pro-max` + `ui-ux-designer` |
-| "3D", "three.js", "WebGL", "animation", "scene" | `threejs-*` skills (pick relevant module) |
-| "review", "check my code", "look at this" | `requesting-code-review` |
-| "test", "TDD", "unit test", "write tests" | `test-driven-development` |
-| "merge", "PR", "I'm done", "finished" | `finishing-a-development-branch` |
-| "debug", "why is", "what's wrong" | `systematic-debugging` |
-| "plan", "break this down", "tasks" | `writing-plans` |
-
----
-
-## 📚 Skill Library Paths
-
-### Superpowers Skills (General Dev Methodology)
-- Brainstorming: `./plugins/superpowers/skills/brainstorming/SKILL.md`
-- Writing Plans: `./plugins/superpowers/skills/writing-plans/SKILL.md`
-- Executing Plans: `./plugins/superpowers/skills/executing-plans/SKILL.md`
-- TDD: `./plugins/superpowers/skills/test-driven-development/SKILL.md`
-- Systematic Debugging: `./plugins/superpowers/skills/systematic-debugging/SKILL.md`
-- Verification: `./plugins/superpowers/skills/verification-before-completion/SKILL.md`
-- Code Review (Request): `./plugins/superpowers/skills/requesting-code-review/SKILL.md`
-- Code Review (Receive): `./plugins/superpowers/skills/receiving-code-review/SKILL.md`
-- Git Worktrees: `./plugins/superpowers/skills/using-git-worktrees/SKILL.md`
-- Finishing Branch: `./plugins/superpowers/skills/finishing-a-development-branch/SKILL.md`
-- Subagent Dev: `./plugins/superpowers/skills/subagent-driven-development/SKILL.md`
-- Parallel Agents: `./plugins/superpowers/skills/dispatching-parallel-agents/SKILL.md`
-- Writing Skills: `./plugins/superpowers/skills/writing-skills/SKILL.md`
-
-### UI/UX Skills
-- UI/UX Pro Max: `./Skills/ui-ux-pro-max/SKILL.md`
-- UI/UX Designer: `./Skills/ui-ux-designer/SKILL.md`
-
-### Three.js Skills
-- Fundamentals: `./Skills/threejs-skills-main/skills/threejs-fundamentals/`
-- Animation: `./Skills/threejs-skills-main/skills/threejs-animation/`
-- Geometry: `./Skills/threejs-skills-main/skills/threejs-geometry/`
-- Lighting: `./Skills/threejs-skills-main/skills/threejs-lighting/`
-- Materials: `./Skills/threejs-skills-main/skills/threejs-materials/`
-- Shaders: `./Skills/threejs-skills-main/skills/threejs-shaders/`
-- Textures: `./Skills/threejs-skills-main/skills/threejs-textures/`
-- Post-processing: `./Skills/threejs-skills-main/skills/threejs-postprocessing/`
-- Loaders: `./Skills/threejs-skills-main/skills/threejs-loaders/`
-- Interaction: `./Skills/threejs-skills-main/skills/threejs-interaction/`
-
-### Memory System
-- Schema: `./plugins/claude-memory-compiler-main/AGENTS.md`
-- Knowledge Index: `./knowledge/index.md`
-- Today's Log: `./daily/` (most recent file)
+- **Dashboard Home** — Overview and key metrics
+- **Bookings** — Manage guest reservations
+- **Orders & POS** — View incoming orders; dedicated POS interface for taking orders at the counter
+- **Rooms & Housekeeping** — Room status and housekeeping assignments
+- **Inventory** — Stock and supplies management
+- **Reports** — Analytics and reporting
+- **Staff Management** — Staff accounts and scheduling
+- **Settings** — System configuration
 
 ---
 
-## 🧠 Memory Knowledge Base
+## Tech Stack
 
-> Read `./knowledge/index.md` NOW to load what has been learned in previous sessions.
-
-The knowledge base follows this structure:
-- `daily/YYYY-MM-DD.md` — raw session logs (what happened, decisions made, lessons learned)
-- `knowledge/index.md` — master catalog of all compiled knowledge
-- `knowledge/concepts/` — atomic knowledge articles
-- `knowledge/connections/` — cross-cutting insight articles
-- `knowledge/qa/` — filed Q&A articles
-
-### To Trigger Memory Compilation
-
-When the user says **"compile session"** or **"end session"** or **"save this session"**:
-1. Write `daily/YYYY-MM-DD.md` based on today's conversation
-2. Identify new concepts, decisions, and lessons learned
-3. Create or update articles in `knowledge/concepts/`
-4. If a cross-cutting insight links 2+ concepts, create in `knowledge/connections/`
-5. Update `knowledge/index.md` table with new/modified articles
-6. Append to `knowledge/log.md`
-
-Follow the schema defined in `./plugins/claude-memory-compiler-main/AGENTS.md` exactly.
+| | |
+|---|---|
+| Framework | React 19 + TypeScript |
+| Build Tool | Vite 8 |
+| Routing | React Router v7 |
+| Icons | Lucide React |
+| Styling | Inline styles with CSS variables (dark luxury theme) |
+| Testing | Vitest + fast-check (property-based tests) |
+| Font | Cormorant Garamond + Montserrat |
 
 ---
 
-## 🏨 Project Context
+## Getting Started
 
-This is a **Hotel Management Application** with:
-- `frontend-staff/` — Staff-facing frontend
-- `frontend-guest/` — Guest-facing frontend
-- `.kiro/` — Kiro AI specs
+### Prerequisites
+- Node.js 18+
+- npm
 
-Always remember the project structure when making code changes.
+### Install dependencies
+
+```bash
+# Guest frontend
+cd frontend-guest
+npm install
+
+# Staff frontend
+cd frontend-staff
+npm install
+```
+
+### Run both dev servers
+
+```bash
+# Terminal 1 — Guest (http://localhost:5173)
+cd frontend-guest
+npm run dev
+
+# Terminal 2 — Staff (http://localhost:5174)
+cd frontend-staff
+npm run dev
+```
+
+### Staff Login
+
+| Field    | Value      |
+|----------|------------|
+| Username | `staff`    |
+| Password | `aurum123` |
 
 ---
 
-## 📋 Instruction Priority
+## Project Structure
 
-1. **User's explicit instructions** (this GEMINI.md, direct requests) — HIGHEST
-2. **Superpowers skills** — override default behavior
-3. **Default assistant behavior** — lowest priority
+```
+hotel-crm/
+├── frontend-guest/         # Guest-facing app (booking, dining, services)
+│   └── src/
+│       ├── pages/          # LandingPage, BookingPage, GuestPortal, LoginPage
+│       ├── components/     # Navbar, Footer
+│       └── utils/          # Business logic (rate plans, room state, order totals)
+│
+├── frontend-staff/         # Staff dashboard (bookings, POS, rooms, reports)
+│   └── src/
+│       ├── pages/
+│       │   └── staff/      # DashboardHome, BookingsPage, OrdersPage, RoomsPage, etc.
+│       └── utils/          # Shared business logic utilities
+│
+├── .kiro/                  # Kiro AI specs and agents
+├── knowledge/              # Session knowledge base and logs
+└── daily/                  # Daily session logs
+```
+
+---
+
+## Running Tests
+
+```bash
+# Inside either frontend directory
+npm run test:run
+```
+
+Property-based tests live in `src/utils/__tests__/` and cover rate plan pricing, order state machines, room occupancy, and folio integrity.

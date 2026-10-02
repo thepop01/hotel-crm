@@ -1,6 +1,6 @@
-# ⚡ ANTIGRAVITY SUPERPOWERS — Cheat Sheet
+# ⚡ Skills & Workflow Cheat Sheet
 
-*Say any of these phrases and the corresponding superpower activates automatically.*
+*Say any of these phrases and the corresponding skill activates automatically.*
 
 ---
 
@@ -97,7 +97,7 @@
 
 ### Knowledge base location:
 ```
-hotel management app/
+hotel-crm/
 ├── daily/              ← raw session logs
 ├── knowledge/
 │   ├── index.md        ← master catalog
@@ -120,8 +120,7 @@ hotel management app/
 
 ---
 
-*All superpowers defined in: `Readme.md` (project root)*
-*Skills library: `plugins/superpowers/skills/`*
-*UI skills: `Skills/ui-ux-pro-max/` and `Skills/ui-ux-designer/`*
-*Three.js skills: `Skills/threejs-skills-main/skills/`*
+*Skills library: `plugins/superpowers/skills/`*  
+*UI skills: `Skills/ui-ux-pro-max/` and `Skills/ui-ux-designer/`*  
+*Three.js skills: `Skills/threejs-skills-main/skills/`*  
 *Memory schema: `plugins/claude-memory-compiler-main/AGENTS.md`*
